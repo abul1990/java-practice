@@ -570,4 +570,76 @@ public class LinkedList {
         current.next = null;
         return newHead;
     }
+
+    public static SinglyLinkedListNode addTwoNumbers(SinglyLinkedListNode l1, SinglyLinkedListNode l2) {
+        SinglyLinkedListNode reverseL1 = reverse(l1);
+        SinglyLinkedListNode reverseL2 = reverse(l2);
+
+        SinglyLinkedListNode dummy = new SinglyLinkedListNode(0);
+        SinglyLinkedListNode current = dummy;
+        int carry = 0;
+
+        while (reverseL1 != null || reverseL2 != null) {
+            int sum = carry;
+            if (reverseL1 != null) {
+                sum += reverseL1.data;
+                reverseL1 = reverseL1.next;
+            }
+            if (reverseL2 != null) {
+                sum += reverseL2.data;
+                reverseL2 = reverseL2.next;
+            }
+
+            carry = sum / 10;
+            current.next = new SinglyLinkedListNode(sum % 10);
+            current = current.next;
+        }
+
+        if (carry > 0) {
+            current.next = new SinglyLinkedListNode(carry);
+        }
+
+//        SinglyLinkedListNode result = dummy.next;
+
+        return dummy.next;
+
+    }
+
+    public static SinglyLinkedListNode addTwoNumbersSol(SinglyLinkedListNode l1, SinglyLinkedListNode l2) {
+        SinglyLinkedListNode dummyHead = new SinglyLinkedListNode(0);
+        SinglyLinkedListNode tail = dummyHead;
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+            int sum = carry;
+
+            if (l1 != null) {
+                sum += l1.data;
+                l1 = l1.next;
+            }
+
+            if (l2 != null) {
+                sum += l2.data;
+                l2 = l2.next;
+            }
+
+            carry = sum / 10;
+            tail.next = new SinglyLinkedListNode(sum % 10);
+            tail = tail.next;
+        }
+
+        return dummyHead.next;
+    }
+
+    public static SinglyLinkedListNode reverse(SinglyLinkedListNode node) {
+        SinglyLinkedListNode reverse = null;
+        SinglyLinkedListNode next;
+        while (node != null) {
+            next = node.next;
+            node.next = reverse;
+            reverse = node;
+            node = next;
+        }
+        return reverse;
+    }
 }
