@@ -1,0 +1,57 @@
+package leetcode;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class LeetcodeProblems {
+    public static void main(String[] args) {
+       int length = lengthOfLongestSubstring("abcabcbb");
+        System.out.println("Longest Substring Without Repeating Characters: " + length);
+        System.out.println("Merged array median: " + findMedianSortedArrays(new int[]{1,2,3}, new int[]{2,3,4,5}));
+    }
+
+    public static int lengthOfLongestSubstring(String s) {
+        Set<Character> charSet = new HashSet<>();
+        int maxLength = 0;
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            while (!charSet.add(s.charAt(end))) {
+                charSet.remove(s.charAt(start));
+                start++;
+            }
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+        return maxLength;
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int n = n1 + n2;
+        int[] merged = new int[n];
+
+        int i=0, j=0, k=0;
+
+        while (i < n1 && j < n2) {
+            if (nums1[i] < nums2[j]) {
+                merged[k++] = nums1[i++];
+            } else {
+                merged[k++] = nums2[j++];
+            }
+        }
+
+        while (i < n1) {
+            merged[k++] = nums1[i++];
+        }
+
+        while (j < n2) {
+            merged[k++] = nums2[j++];
+        }
+
+
+        if (n%2==0) {
+            return (double) (merged[n/2-1] + merged[n/2])/2;
+        } else {
+            return merged[n/2];
+        }
+    }
+}
